@@ -34,12 +34,12 @@ export const Sidebar = () => {
 
   return (
     <div className="h-[100vh] min-w-[300px] pl-6 py-4 bg-sidebarBackground">
-      <p className="flex items-center gap-2 py-2 px-3 rounded-l-lg cursor-pointer hover:bg-secondaryColor transition-colors ease-in-out">
+      <button className="flex items-center gap-2 py-2 px-3 rounded-l-lg cursor-pointer hover:bg-secondaryColor transition-colors ease-in-out w-full">
         <img src={addTaskIcon} alt="Add task" className="h-7" />
         <span className="text-primaryColor text-lg font-semibold">
           Add task
         </span>
-      </p>
+      </button>
       <nav className="mt-3 flex flex-col gap-2">
         <ul className="space-y-2">
           {sidebarLinks.map((item) => (
