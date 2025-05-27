@@ -1,1 +1,11 @@
 @import "tailwindcss";
+
+@theme {
+  --color-primaryColor: #a81f00;
+  --color-secondaryColor: #ffefe5;
+  --color-sidebarBackground: #fcfaf8;
+}
+
+body {
+  font-family: sans-serif;
+}
