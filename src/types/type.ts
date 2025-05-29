@@ -1,5 +1,5 @@
 interface SidebarLinks {
-  id: string;
+  id: number;
   label: string;
   to: string;
   src: string;
