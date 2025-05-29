@@ -9,19 +9,19 @@ import upcomingIcon from "/icons/upcoming.svg";
 
 const sidebarLinks: Array<SidebarLinks> = [
   {
-    id: crypto.randomUUID(),
+    id: 1,
     label: "Inbox",
     to: "/",
     src: inboxIcon,
   },
   {
-    id: crypto.randomUUID(),
+    id: 2,
     label: "Today",
     to: "/today",
     src: todayIcon,
   },
   {
-    id: crypto.randomUUID(),
+    id: 3,
     label: "Upcoming",
     to: "/upcoming",
     src: upcomingIcon,
