@@ -7,13 +7,13 @@ interface TodoContextType {
   setEditingTodoId: (id: string | null) => void;
 }
 
-interface TodoContextProps {
+interface TodoContextProp {
   children: ReactNode;
 }
 
 const TodoContext = createContext<TodoContextType | undefined>(undefined);
 
-const TodoProvider = ({ children }: TodoContextProps) => {
+const TodoProvider = ({ children }: TodoContextProp) => {
   const [isAddTodoOpen, setIsTodoOpen] = useState(false);
   const [editingTodoId, setEditingTodoId] = useState<string | null>(null);
 
