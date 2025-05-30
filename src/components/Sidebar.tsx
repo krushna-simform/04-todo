@@ -6,6 +6,7 @@ import addTaskIcon from "/icons/add-task-1.svg";
 import inboxIcon from "/icons/inbox.svg";
 import todayIcon from "/icons/today.svg";
 import upcomingIcon from "/icons/upcoming.svg";
+import { useTodoContext } from "@/hooks/useTodoContext";
 
 const sidebarLinks: Array<SidebarLinks> = [
   {
@@ -32,9 +33,14 @@ export const Sidebar = () => {
   const location = useLocation();
   const currentPath = location.pathname;
 
+  const { handleAddTodoClick } = useTodoContext();
+
   return (
     <div className="h-[100vh] min-w-[300px] pl-6 py-4 bg-sidebarBackground">
-      <button className="flex items-center gap-2 py-2 px-3 rounded-l-lg cursor-pointer hover:bg-secondaryColor transition-colors ease-in-out w-full">
+      <button
+        className="flex items-center gap-2 py-2 px-3 rounded-l-lg cursor-pointer hover:bg-secondaryColor transition-colors ease-in-out w-full"
+        onClick={handleAddTodoClick}
+      >
         <img src={addTaskIcon} alt="Add task" className="h-7" />
         <span className="text-primaryColor text-lg font-semibold">
           Add task
