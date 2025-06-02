@@ -1,7 +1,12 @@
+import { useSelector } from "react-redux";
+import type { RootState } from "@/redux/store";
+
 import { AddTodo } from "@/components/AddTodo";
 import { ImgShowcase } from "@/components/ui/ImgShowcase";
+import { Todos } from "@/components/Todos";
 
 const Inbox = () => {
+  const todos = useSelector((state: RootState) => state.todo.todos);
   return (
     <div className="w-full">
       <div className="w-[90%] md:w-[50%] mx-auto pt-18">
@@ -13,7 +18,13 @@ const Inbox = () => {
           <AddTodo />
         </div>
 
-        <ImgShowcase />
+        <div className="mt-4">
+          {todos.map((todos) => (
+            <Todos key={todos.id} todo={todos} />
+          ))}
+        </div>
+
+        {!todos.length && <ImgShowcase />}
       </div>
     </div>
   );
