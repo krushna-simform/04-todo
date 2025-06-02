@@ -13,6 +13,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import { AddTaskButton } from "@/components/ui/AddTaskButton";
+import { Textarea } from "@/components/ui/textarea";
 
 import { useDispatch } from "react-redux";
 import { addTodo } from "@/redux/todoSlice";
@@ -88,7 +89,7 @@ export const AddTodo = () => {
               className="!text-[16px] placeholder:text-[16px] border-none outline-none shadow-none"
             />
 
-            <Input
+            <Textarea
               name="description"
               placeholder="Description"
               value={formik.values.description}
