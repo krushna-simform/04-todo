@@ -32,7 +32,7 @@ import {
 } from "@/components/ui/select";
 
 const AddTodoSchema = Yup.object({
-  text: Yup.string(),
+  text: Yup.string().required(),
   description: Yup.string().nullable(),
   date: Yup.date().nullable(),
   priority: Yup.mixed<Priority>().oneOf(["low", "medium", "high"]),
