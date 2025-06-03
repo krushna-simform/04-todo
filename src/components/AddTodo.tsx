@@ -141,9 +141,18 @@ export const AddTodo = () => {
                   <SelectValue placeholder="Priority" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="high">High</SelectItem>
-                  <SelectItem value="medium">Medium</SelectItem>
-                  <SelectItem value="low">Low</SelectItem>
+                  <SelectItem value="high">
+                    <div className="h-2.5 w-2.5 bg-[#E23B37] rounded-full"></div>
+                    High
+                  </SelectItem>
+                  <SelectItem value="medium">
+                    <div className="h-2.5 w-2.5 bg-[#FE6E01] rounded-full"></div>
+                    Medium
+                  </SelectItem>
+                  <SelectItem value="low">
+                    <div className="h-2.5 w-2.5 bg-[#2089E5] rounded-full"></div>
+                    Low
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
