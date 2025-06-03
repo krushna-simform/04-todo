@@ -5,4 +5,14 @@ interface SidebarLinks {
   src: string;
 }
 
-export type { SidebarLinks };
+type Priority = "low" | "medium" | "high";
+interface Todo {
+  id: string;
+  text: string;
+  description?: string;
+  date?: string;
+  completed: boolean;
+  priority: Priority;
+}
+
+export type { SidebarLinks, Todo, Priority };

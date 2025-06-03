@@ -1,12 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { CalendarIcon } from "lucide-react";
-import { useTodoContext } from "@/hooks/useTodoContext";
+import { format } from "date-fns";
+import { v4 as uuid } from "uuid";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
+import { addTodo } from "@/redux/todoSlice";
+import { useTodoContext } from "@/hooks/useTodoContext";
+import type { Todo, Priority } from "@/types/type";
 import { Input } from "@/components/ui/input";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
-import { format } from "date-fns";
 import { AddTaskButton } from "@/components/ui/AddTaskButton";
+import { Textarea } from "@/components/ui/textarea";
+import { useKeyPress } from "@/hooks/useKeyPress";
 
 import {
   Popover,
@@ -21,82 +29,182 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export const AddTodo = () => {
-  const { isAddTodoOpen, handleAddTodoClick } = useTodoContext();
+const AddTodoSchema = Yup.object({
+  text: Yup.string().required(),
+  description: Yup.string().nullable(),
+  date: Yup.date().nullable(),
+  priority: Yup.mixed<Priority>().oneOf(["low", "medium", "high"]),
+});
 
-  const [date, setDate] = useState<Date | undefined>(undefined);
+export const AddTodo = () => {
+  const dispatch = useDispatch();
+  const { isAddTodoOpen, handleAddTodoClick } = useTodoContext();
   const [open, setOpen] = useState(false);
+
+  const isEscPressed = useKeyPress("Escape");
+  const isEnterPressed = useKeyPress("Enter");
+
+  const formik = useFormik<Omit<Todo, "id" | "completed">>({
+    initialValues: {
+      text: "",
+      description: "",
+      date: undefined,
+      priority: "medium",
+    },
+    validationSchema: AddTodoSchema,
+    validateOnChange: true,
+    validateOnBlur: true,
+    onSubmit: (values) => {
+      const newTodo: Todo = {
+        id: uuid(),
+        completed: false,
+        ...values,
+        text: values.text.trim(),
+        date: values.date
+          ? format(new Date(values.date), "yyyy-MM-dd")
+          : undefined,
+        description:
+          values.description?.trim() === ""
+            ? undefined
+            : values.description?.trim(),
+      };
+
+      dispatch(addTodo(newTodo));
+      formik.resetForm();
+      handleAddTodoClick();
+    },
+  });
+
+  useEffect(() => {
+    if (isEscPressed && isAddTodoOpen) {
+      formik.resetForm();
+      handleAddTodoClick();
+    }
+
+    if (isEnterPressed && isAddTodoOpen) {
+      const activeElement = document.activeElement;
+      if (
+        activeElement &&
+        (activeElement.tagName === "TEXTAREA" ||
+          activeElement.getAttribute("name") === "description")
+      ) {
+        return;
+      }
+
+      if (formik.values.text.trim() && !formik.isSubmitting) {
+        formik.handleSubmit();
+      }
+    }
+  }, [isEscPressed, isEnterPressed, isAddTodoOpen, formik]);
 
   return (
     <div>
       {!isAddTodoOpen && <AddTaskButton />}
 
       {isAddTodoOpen && (
-        <div className="w-full border border-secondaryColor min-h-35 rounded-lg mt-10 flex flex-col">
+        <form
+          onSubmit={formik.handleSubmit}
+          className="w-full border border-secondaryColor min-h-35 rounded-lg mt-10 flex flex-col"
+        >
           <div className="flex flex-col gap-2 py-2 px-2">
             <Input
-              type="text"
-              placeholder="Morning DSU"
-              className="!text-[16px] placeholder:text-[16px] border-none outline-none shadow-none focus:outline-none focus:ring-0 focus:border-none focus-visible:ring-0 focus-visible:outline-none"
+              name="text"
+              placeholder="Task Title"
+              value={formik.values.text}
+              onChange={formik.handleChange}
+              className="!text-[16px] placeholder:text-[16px] border-none outline-none shadow-none"
             />
-            <Input
-              type="text"
+
+            <Textarea
+              name="description"
               placeholder="Description"
-              className="!text-[14px] placeholder:text-[14px] border-none outline-none shadow-none focus:outline-none focus:ring-0 focus:border-none focus-visible:ring-0 focus-visible:outline-none"
+              value={formik.values.description}
+              onChange={formik.handleChange}
+              className="!text-[14px] placeholder:text-[14px] border-none outline-none shadow-none"
             />
           </div>
 
-          <div className="mt-auto flex gap-3 justify-between border-t-1 py-2 px-2 border-t-primaryColor">
-            <div className="flex gap-1">
+          <div className="flex gap-3 justify-between border-t-1 py-2 px-2 border-t-primaryColor">
+            <div className="flex gap-1 items-center">
               <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                   <Button
+                    type="button"
                     variant="outline"
-                    className="w-[150px] justify-start text-left font-normal"
+                    className="w-[200px] justify-center text-left font-normal"
                   >
-                    <CalendarIcon />
-                    {date ? format(date, "PPP") : "Select a date"}
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {formik.values.date
+                      ? format(new Date(formik.values.date), "PPP")
+                      : "Select a date"}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
                     mode="single"
-                    selected={date}
+                    selected={
+                      formik.values.date
+                        ? new Date(formik.values.date)
+                        : undefined
+                    }
                     onSelect={(date) => {
-                      setDate(date || undefined);
+                      formik.setFieldValue("date", date || undefined);
                       setOpen(false);
                     }}
                     initialFocus
+                    fromDate={new Date()}
                   />
                 </PopoverContent>
               </Popover>
 
-              <Select>
+              <Select
+                value={formik.values.priority}
+                onValueChange={(value) =>
+                  formik.setFieldValue("priority", value as Priority)
+                }
+              >
                 <SelectTrigger className="w-[150px]">
                   <SelectValue placeholder="Priority" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="hight">High</SelectItem>
-                  <SelectItem value="medium">Medium</SelectItem>
-                  <SelectItem value="low">Low</SelectItem>
+                  <SelectItem value="high">
+                    <div className="h-3 w-3 bg-[#F8DAD8] border-1 border-[#E23B37] rounded-full"></div>
+                    High
+                  </SelectItem>
+                  <SelectItem value="medium">
+                    <div className="h-3 w-3 bg-[#FBEDE3] border-1 border-[#FE6E01] rounded-full"></div>
+                    Medium
+                  </SelectItem>
+                  <SelectItem value="low">
+                    <div className="h-3 w-3 bg-[#E0EDF7] border-1 border-[#2089E5] rounded-full"></div>
+                    Low
+                  </SelectItem>
                 </SelectContent>
               </Select>
             </div>
-
-            <div className="flex gap-1">
-              <Button
-                className="bg-gray-500 text-[14px] py-1 px-3 font-semibold rounded-sm cursor-pointer hover:bg-gray-400"
-                onClick={handleAddTodoClick}
-              >
-                Cancel
-              </Button>
-
-              <Button className="bg-primaryColor text-white text-[14px] py-1 px-3 font-semibold rounded-sm cursor-pointer hover:bg-[#a81f00bd]">
-                Add task
-              </Button>
-            </div>
           </div>
-        </div>
+
+          <div className="flex gap-1 justify-end py-2 px-2">
+            <Button
+              type="button"
+              onClick={() => {
+                formik.resetForm();
+                handleAddTodoClick();
+              }}
+              className="bg-gray-500 text-[14px] py-1 px-3 font-semibold rounded-sm cursor-pointer hover:bg-gray-400"
+            >
+              Cancel
+            </Button>
+
+            <Button
+              type="submit"
+              className="bg-primaryColor text-white text-[14px] py-1 px-3 font-semibold rounded-sm cursor-pointer hover:bg-[#a81f00bd]"
+              disabled={!formik.values.text.trim() || formik.isSubmitting}
+            >
+              Add task
+            </Button>
+          </div>
+        </form>
       )}
     </div>
   );
