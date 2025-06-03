@@ -42,6 +42,7 @@ export const AddTodo = () => {
   const [open, setOpen] = useState(false);
 
   const isEscPressed = useKeyPress("Escape");
+  const isEnterPressed = useKeyPress("Enter");
 
   const formik = useFormik<Omit<Todo, "id" | "completed">>({
     initialValues: {
@@ -79,7 +80,22 @@ export const AddTodo = () => {
       formik.resetForm();
       handleAddTodoClick();
     }
-  });
+
+    if (isEnterPressed && isAddTodoOpen) {
+      const activeElement = document.activeElement;
+      if (
+        activeElement &&
+        (activeElement.tagName === "TEXTAREA" ||
+          activeElement.getAttribute("name") === "description")
+      ) {
+        return;
+      }
+
+      if (formik.values.text.trim() && !formik.isSubmitting) {
+        formik.handleSubmit();
+      }
+    }
+  }, [isEscPressed, isEnterPressed, isAddTodoOpen, formik]);
 
   return (
     <div>
