@@ -1,64 +1,20 @@
 import { useDispatch } from "react-redux";
 import { removeTodo, toggleComplete } from "@/redux/todoSlice";
 
-import type { Todo } from "@/types/type";
 import { cn } from "clsx-for-tailwind";
+import type { Todo } from "@/types/type";
+import { getDateLabelAndIcon, getPriorityStyles } from "@/utils/todoUtils";
 
-import checkHighIcon from "/icons/check-high.svg";
-import checkMediumIcon from "/icons/check-medium.svg";
-import checkLowIcon from "/icons/check-low.svg";
-import todayTodoIcon from "/icons/today-todo.svg";
-import tomorrowTodoIcon from "/icons/tomorrow-todo.svg";
-import upcomingTodoIcon from "/icons/upcoming-todo.svg";
 import editIcon from "/icons/edit.svg";
 import deleteIcon from "/icons/delete.svg";
 
 const CHAR_LENGTH = 100;
 
 export const Todos = ({ todo }: { todo: Todo }) => {
-  const today = new Date().toISOString().split("T")[0];
-  const tomorrow = new Date(Date.now() + 86400000).toISOString().split("T")[0];
-
   const dispatch = useDispatch();
 
-  const getDateLabelAndIcon = () => {
-    if (!todo.date) return null;
-
-    if (todo.date === today) {
-      return { icon: todayTodoIcon, label: "Today", color: "#058527" };
-    }
-
-    if (todo.date === tomorrow) {
-      return { icon: tomorrowTodoIcon, label: "Tomorrow", color: "#AD6200" };
-    }
-
-    return { icon: upcomingTodoIcon, label: "Upcoming", color: "#692EC2" };
-  };
-
-  const getPriorityColor = () => {
-    if (todo.priority === "high") {
-      return {
-        borderColor: "#E23B37",
-        bgColor: "#F8DAD8",
-        checkIcon: checkHighIcon,
-      };
-    }
-    if (todo.priority === "low") {
-      return {
-        borderColor: "#2089E5",
-        bgColor: "#E0EDF7",
-        checkIcon: checkLowIcon,
-      };
-    }
-    return {
-      borderColor: "#FE6E01",
-      bgColor: "#FBEDE3",
-      checkIcon: checkMediumIcon,
-    };
-  };
-
-  const dateInfo = getDateLabelAndIcon();
-  const checkboxColor = getPriorityColor();
+  const dateInfo = getDateLabelAndIcon(todo.date);
+  const checkboxColor = getPriorityStyles(todo.priority);
 
   return (
     <div className="border-b-1 border-b-secondaryColor py-2 cursor-pointer">
