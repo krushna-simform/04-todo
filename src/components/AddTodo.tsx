@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
@@ -14,6 +14,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { AddTaskButton } from "@/components/ui/AddTaskButton";
 import { Textarea } from "@/components/ui/textarea";
+import { useKeyPress } from "@/hooks/useKeyPress";
 
 import {
   Popover,
@@ -39,6 +40,8 @@ export const AddTodo = () => {
   const dispatch = useDispatch();
   const { isAddTodoOpen, handleAddTodoClick } = useTodoContext();
   const [open, setOpen] = useState(false);
+
+  const isEscPressed = useKeyPress("Escape");
 
   const formik = useFormik<Omit<Todo, "id" | "completed">>({
     initialValues: {
@@ -69,6 +72,13 @@ export const AddTodo = () => {
       formik.resetForm();
       handleAddTodoClick();
     },
+  });
+
+  useEffect(() => {
+    if (isEscPressed && isAddTodoOpen) {
+      formik.resetForm();
+      handleAddTodoClick();
+    }
   });
 
   return (
