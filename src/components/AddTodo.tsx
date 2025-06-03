@@ -142,15 +142,15 @@ export const AddTodo = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="high">
-                    <div className="h-2.5 w-2.5 bg-[#E23B37] rounded-full"></div>
+                    <div className="h-3 w-3 bg-[#F8DAD8] border-1 border-[#E23B37] rounded-full"></div>
                     High
                   </SelectItem>
                   <SelectItem value="medium">
-                    <div className="h-2.5 w-2.5 bg-[#FE6E01] rounded-full"></div>
+                    <div className="h-3 w-3 bg-[#FBEDE3] border-1 border-[#FE6E01] rounded-full"></div>
                     Medium
                   </SelectItem>
                   <SelectItem value="low">
-                    <div className="h-2.5 w-2.5 bg-[#2089E5] rounded-full"></div>
+                    <div className="h-3 w-3 bg-[#E0EDF7] border-1 border-[#2089E5] rounded-full"></div>
                     Low
                   </SelectItem>
                 </SelectContent>
