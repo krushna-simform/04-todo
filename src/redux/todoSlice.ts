@@ -1,18 +1,20 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { Todo } from "@/types/type";
 
+const TODO_STORAGE_KEY = "todos";
+
 interface TodoState {
   todos: Array<Todo>;
 }
 
-const savedTodos = JSON.parse(localStorage.getItem("todos") || "[]");
+const savedTodos = JSON.parse(localStorage.getItem(TODO_STORAGE_KEY) || "[]");
 
 const initialState: TodoState = {
   todos: Array.isArray(savedTodos) ? savedTodos : [],
 };
 
 const saveToLocalStorage = (todos: Array<Todo>) => {
-  localStorage.setItem("todos", JSON.stringify(todos));
+  localStorage.setItem(TODO_STORAGE_KEY, JSON.stringify(todos));
 };
 
 const todoSlice = createSlice({
