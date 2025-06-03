@@ -20,14 +20,16 @@ const Inbox = () => {
           </div>
         </div>
 
-        <div
-          className="mt-4 h-full flex-1 overflow-y-auto"
-          style={{ scrollbarWidth: "none" }}
-        >
-          {todos.map((todos) => (
-            <Todos key={todos.id} todo={todos} />
-          ))}
-        </div>
+        {todos.length !== 0 && (
+          <div
+            className="mt-4 h-full flex-1 overflow-y-auto"
+            style={{ scrollbarWidth: "none" }}
+          >
+            {todos.map((todos) => (
+              <Todos key={todos.id} todo={todos} />
+            ))}
+          </div>
+        )}
 
         {!todos.length && <ImgShowcase />}
       </div>
