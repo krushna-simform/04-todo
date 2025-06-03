@@ -7,6 +7,14 @@ import todayTodoIcon from "/icons/today-todo.svg";
 import tomorrowTodoIcon from "/icons/tomorrow-todo.svg";
 import upcomingTodoIcon from "/icons/upcoming-todo.svg";
 
+/**
+ * Returns (icon, label, and color) based on the provided date.
+ *
+ * @param {string | undefined} date - A date string in `yyyy-MM-dd` format or undefined.
+ * @returns {{ icon: string; label: string; color: string } | null}
+ *  - An object containing the icon path, label, and label color for the date category.
+ *  - Returns `null` if the input date is undefined.
+ */
 const getDateLabelAndIcon = (date: string | undefined) => {
   if (!date) return null;
 
@@ -24,6 +32,17 @@ const getDateLabelAndIcon = (date: string | undefined) => {
   return { icon: upcomingTodoIcon, label: "Upcoming", color: "#692EC2" };
 };
 
+/**
+ * Returns styling and check icon based on the priority level.
+ *
+ * @param {Priority} priority - The priority level (`low`, `medium`, or `high`).
+ * @returns {{
+ *   borderColor: string;
+ *   bgColor: string;
+ *   checkIcon: string;
+ * }}
+ *  - An object containing styles for checkbox border, background color, and associated checkmark icon.
+ */
 const getPriorityStyles = (priority: Priority) => {
   if (priority === "high") {
     return {
