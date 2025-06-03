@@ -105,7 +105,7 @@ export const AddTodo = () => {
                   <Button
                     type="button"
                     variant="outline"
-                    className="w-[150px] justify-start text-left font-normal"
+                    className="w-[200px] justify-center text-left font-normal"
                   >
                     <CalendarIcon className="mr-2 h-4 w-4" />
                     {formik.values.date
@@ -126,6 +126,7 @@ export const AddTodo = () => {
                       setOpen(false);
                     }}
                     initialFocus
+                    fromDate={new Date()}
                   />
                 </PopoverContent>
               </Popover>
