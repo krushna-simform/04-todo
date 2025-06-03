@@ -3,15 +3,12 @@ import { useDispatch } from "react-redux";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { v4 as uuid } from "uuid";
-
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import { addTodo } from "@/redux/todoSlice";
 import { useTodoContext } from "@/hooks/useTodoContext";
-
 import type { Todo, Priority } from "@/types/type";
-
 import { Input } from "@/components/ui/input";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
@@ -58,11 +55,14 @@ export const AddTodo = () => {
         id: uuid(),
         completed: false,
         ...values,
+        text: values.text.trim(),
         date: values.date
           ? format(new Date(values.date), "yyyy-MM-dd")
           : undefined,
         description:
-          values.description?.trim() === "" ? undefined : values.description,
+          values.description?.trim() === ""
+            ? undefined
+            : values.description?.trim(),
       };
 
       dispatch(addTodo(newTodo));
