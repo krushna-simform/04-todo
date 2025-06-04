@@ -1,25 +1,28 @@
 import { useDispatch } from "react-redux";
-import { removeTodo, toggleComplete } from "@/redux/todoSlice";
-
 import { cn } from "clsx-for-tailwind";
+
+import { removeTodo, toggleComplete } from "@/redux/todoSlice";
 import type { Todo } from "@/types/type";
 import { getDateLabelAndIcon, getPriorityStyles } from "@/utils/todoUtils";
+import { useTodoContext } from "@/hooks/useTodoContext";
+import { EditTodo } from "@/components/EditTodo";
+import { TodoDetails } from "@/components/TodoDetails";
 
 import editIcon from "/icons/edit.svg";
 import deleteIcon from "/icons/delete.svg";
-import { useTodoContext } from "@/hooks/useTodoContext";
-import { EditTodo } from "./EditTodo";
 
 const CHAR_LENGTH = 100;
 
 export const Todos = ({ todo }: { todo: Todo }) => {
   const dispatch = useDispatch();
-  const { editingTodoId, setEditingTodoId } = useTodoContext();
+  const { editingTodoId, setEditingTodoId, detailTodoId, setDetailTodoId } =
+    useTodoContext();
 
   const dateInfo = getDateLabelAndIcon(todo.date);
   const checkboxColor = getPriorityStyles(todo.priority);
 
   const isEditing = editingTodoId === todo.id;
+  const isDetailsId = detailTodoId === todo.id;
 
   return (
     <div className="border-b-1 border-b-secondaryColor py-2 cursor-pointer">
@@ -27,7 +30,7 @@ export const Todos = ({ todo }: { todo: Todo }) => {
         <EditTodo todo={todo} />
       ) : (
         <div className="flex justify-between items-end">
-          <div className="flex items-start gap-3.5">
+          <div className="flex items-start gap-3.5 flex-1">
             <button
               className="border min-h-5 min-w-5 rounded-full mt-1 flex items-center justify-center cursor-pointer group"
               style={{
@@ -46,7 +49,10 @@ export const Todos = ({ todo }: { todo: Todo }) => {
               />
             </button>
 
-            <div className="space-y-1">
+            <div
+              className="space-y-1 flex-1"
+              onClick={() => setDetailTodoId(todo.id)}
+            >
               <p
                 className={cn(
                   "text-[14px]",
@@ -97,6 +103,7 @@ export const Todos = ({ todo }: { todo: Todo }) => {
           </div>
         </div>
       )}
+      {isDetailsId && <TodoDetails todo={todo} />}
     </div>
   );
 };
