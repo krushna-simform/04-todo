@@ -104,7 +104,7 @@ export const TodoDetails = ({ todo }: { todo: Todo }) => {
               />
             </div>
 
-            {dateInfo && (
+            {todo.date && dateInfo && (
               <div
                 className="flex gap-2 items-center py-1 px-3 rounded-full"
                 style={{ backgroundColor: `${dateInfo.color}20` }}
