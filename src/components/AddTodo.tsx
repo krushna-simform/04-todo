@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { v4 as uuid } from "uuid";
-import { useFormik } from "formik";
+import { isString, useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router";
 
@@ -88,6 +88,8 @@ export const AddTodo = () => {
     },
   });
 
+  const { handleSubmit, values, isSubmitting } = formik;
+
   useEffect(() => {
     if (isEscPressed && isAddTodoOpen) {
       formik.resetForm();
@@ -108,7 +110,14 @@ export const AddTodo = () => {
         formik.handleSubmit();
       }
     }
-  }, [isEscPressed, isEnterPressed, isAddTodoOpen, formik]);
+  }, [
+    isEscPressed,
+    isEnterPressed,
+    isAddTodoOpen,
+    handleSubmit,
+    values,
+    isSubmitting,
+  ]);
 
   return (
     <div>
