@@ -86,6 +86,8 @@ export const EditTodo = ({ todo }: { todo: Todo }) => {
     },
   });
 
+  const { handleSubmit, values, isSubmitting } = formik;
+
   useEffect(() => {
     if (isEscPressed && editingTodoId !== null) {
       setEditingTodoId(null);
@@ -105,7 +107,15 @@ export const EditTodo = ({ todo }: { todo: Todo }) => {
         formik.handleSubmit();
       }
     }
-  }, [isEscPressed, isEnterPressed, formik, editingTodoId, setEditingTodoId]);
+  }, [
+    isEscPressed,
+    isEnterPressed,
+    handleSubmit,
+    values,
+    isSubmitting,
+    editingTodoId,
+    setEditingTodoId,
+  ]);
 
   return (
     <form
