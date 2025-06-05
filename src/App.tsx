@@ -3,6 +3,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router";
 import Inbox from "@/pages/Inbox";
 import Today from "@/pages/Today";
 import Upcoming from "@/pages/Upcoming";
+import { PageNotFound } from "@/pages/NotFound";
 
 import { Sidebar } from "@/components/Sidebar";
 
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "/upcoming",
         element: <Upcoming />,
+      },
+      {
+        path: "*",
+        element: <PageNotFound />,
       },
     ],
   },
