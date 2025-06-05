@@ -4,6 +4,7 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useNavigate } from "react-router";
 
 import { editTodo } from "@/redux/todoSlice";
 import { useTodoContext } from "@/hooks/useTodoContext";
@@ -36,8 +37,11 @@ const UpdateTodoSchema = Yup.object({
 
 export const EditTodo = ({ todo }: { todo: Todo }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const { editingTodoId, setEditingTodoId } = useTodoContext();
+
+  const today = new Date().toISOString().split("T")[0];
 
   const isEscPressed = useKeyPress("Escape");
   const isEnterPressed = useKeyPress("Enter");
@@ -53,14 +57,15 @@ export const EditTodo = ({ todo }: { todo: Todo }) => {
     validateOnChange: true,
     validateOnBlur: true,
     onSubmit: (values) => {
+      const formatDate = values.date
+        ? format(new Date(values.date), "yyyy-MM-dd")
+        : undefined;
       const newTodo: Todo = {
         id: todo.id,
         completed: false,
         ...values,
         text: values.text.trim(),
-        date: values.date
-          ? format(new Date(values.date), "yyyy-MM-dd")
-          : undefined,
+        date: formatDate,
         description:
           values.description?.trim() === ""
             ? undefined
@@ -70,6 +75,14 @@ export const EditTodo = ({ todo }: { todo: Todo }) => {
       dispatch(editTodo(newTodo));
       formik.resetForm();
       setEditingTodoId(null);
+
+      if (formatDate === today) {
+        navigate("/today");
+      } else if (formatDate) {
+        navigate("/upcoming");
+      } else {
+        navigate("/");
+      }
     },
   });
 
