@@ -37,7 +37,7 @@ export const TodoDetails = ({ todo }: { todo: Todo }) => {
           </DialogDescription>
         </DialogHeader>
 
-        <div className="w-full overflow-x-hidden space-y-5">
+        <div className="w-full overflow-x-hidden space-y-3">
           <div className="flex gap-3 items-center w-full">
             <button
               className="border min-h-5 min-w-5 rounded-full mt-1 flex items-center justify-center cursor-pointer group"
@@ -58,9 +58,10 @@ export const TodoDetails = ({ todo }: { todo: Todo }) => {
             </button>
             <p
               className={cn(
-                "text-2xl font-bold break-words whitespace-pre-wrap w-full",
+                "text-2xl font-bold break-words whitespace-pre-wrap w-full max-h-50 overflow-x-auto",
                 todo.completed && "line-through opacity-65"
               )}
+              style={{ scrollbarWidth: "none" }}
             >
               {todo.text}
             </p>
@@ -69,7 +70,7 @@ export const TodoDetails = ({ todo }: { todo: Todo }) => {
           {todo.description && (
             <div
               className={cn(
-                "w-full bg-gray-100/70 py-2 px-3 rounded-sm overflow-y-auto max-h-40",
+                "w-full bg-gray-100/70 py-2 px-3 rounded-sm overflow-y-auto max-h-90",
                 todo.completed && "opacity-65"
               )}
               style={{ scrollbarWidth: "none" }}
@@ -78,7 +79,7 @@ export const TodoDetails = ({ todo }: { todo: Todo }) => {
             </div>
           )}
 
-          <div className="flex gap-3">
+          <div className="flex gap-2">
             <div className="bg-gray-100/80 py-2 px-3 rounded-full">
               <p
                 className={cn(
@@ -106,7 +107,7 @@ export const TodoDetails = ({ todo }: { todo: Todo }) => {
 
             {todo.date && dateInfo && (
               <div
-                className="flex gap-2 items-center py-1 px-3 rounded-full"
+                className="flex gap-1 items-center py-1 px-3 rounded-full"
                 style={{ backgroundColor: `${dateInfo.color}20` }}
               >
                 <img
