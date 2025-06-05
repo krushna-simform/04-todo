@@ -27,7 +27,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const AddTodoSchema = Yup.object({
+const UpdateTodoSchema = Yup.object({
   text: Yup.string().required(),
   description: Yup.string().nullable(),
   date: Yup.date().nullable(),
@@ -49,7 +49,7 @@ export const EditTodo = ({ todo }: { todo: Todo }) => {
       date: todo.date ? todo.date : undefined,
       priority: todo.priority,
     },
-    validationSchema: AddTodoSchema,
+    validationSchema: UpdateTodoSchema,
     validateOnChange: true,
     validateOnBlur: true,
     onSubmit: (values) => {
