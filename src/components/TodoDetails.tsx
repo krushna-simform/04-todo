@@ -58,7 +58,7 @@ export const TodoDetails = ({ todo }: { todo: Todo }) => {
             </button>
             <p
               className={cn(
-                "text-2xl font-bold break-words whitespace-pre-wrap w-full max-h-50 overflow-x-auto",
+                "text-2xl mt-1 font-bold break-words whitespace-pre-wrap w-full max-h-50 overflow-x-auto",
                 todo.completed && "line-through opacity-65"
               )}
               style={{ scrollbarWidth: "none" }}
@@ -115,13 +115,11 @@ export const TodoDetails = ({ todo }: { todo: Todo }) => {
                   alt={`${dateInfo.label} todo`}
                   className="h-5"
                 />
-                <p className="text-[15px]" style={{ color: dateInfo.color }}>
-                  {dateInfo.label}
-                </p>
                 <span style={{ color: dateInfo.color }} className="text-[15px]">
                   {new Date(todo.date).toLocaleDateString("en-US", {
                     month: "short",
                     day: "numeric",
+                    year: "numeric",
                   })}
                 </span>
               </div>
