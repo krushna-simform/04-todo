@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import { v4 as uuid } from "uuid";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useNavigate } from "react-router";
 
 import { addTodo } from "@/redux/todoSlice";
 import { useTodoContext } from "@/hooks/useTodoContext";
@@ -38,8 +39,11 @@ const AddTodoSchema = Yup.object({
 
 export const AddTodo = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { isAddTodoOpen, handleAddTodoClick } = useTodoContext();
   const [open, setOpen] = useState(false);
+
+  const today = new Date().toISOString().split("T")[0];
 
   const isEscPressed = useKeyPress("Escape");
   const isEnterPressed = useKeyPress("Enter");
@@ -55,14 +59,15 @@ export const AddTodo = () => {
     validateOnChange: true,
     validateOnBlur: true,
     onSubmit: (values) => {
+      const formatDate = values.date
+        ? format(new Date(values.date), "yyyy-MM-dd")
+        : undefined;
       const newTodo: Todo = {
         id: uuid(),
         completed: false,
         ...values,
         text: values.text.trim(),
-        date: values.date
-          ? format(new Date(values.date), "yyyy-MM-dd")
-          : undefined,
+        date: formatDate,
         description:
           values.description?.trim() === ""
             ? undefined
@@ -72,8 +77,18 @@ export const AddTodo = () => {
       dispatch(addTodo(newTodo));
       formik.resetForm();
       handleAddTodoClick();
+
+      if (formatDate === today) {
+        navigate("/today");
+      } else if (formatDate) {
+        navigate("/upcoming");
+      } else {
+        navigate("/");
+      }
     },
   });
+
+  const { handleSubmit, values, isSubmitting } = formik;
 
   useEffect(() => {
     if (isEscPressed && isAddTodoOpen) {
@@ -95,7 +110,14 @@ export const AddTodo = () => {
         formik.handleSubmit();
       }
     }
-  }, [isEscPressed, isEnterPressed, isAddTodoOpen, formik]);
+  }, [
+    isEscPressed,
+    isEnterPressed,
+    isAddTodoOpen,
+    handleSubmit,
+    values,
+    isSubmitting,
+  ]);
 
   return (
     <div>

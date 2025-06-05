@@ -3,8 +3,10 @@ import { createContext, useState, type ReactNode } from "react";
 interface TodoContextType {
   isAddTodoOpen: boolean;
   editingTodoId: string | null;
+  selectedTodoId: string | null;
   handleAddTodoClick: () => void;
   setEditingTodoId: (id: string | null) => void;
+  setSelectedTodoId: (id: string | null) => void;
 }
 
 interface TodoContextProp {
@@ -16,6 +18,7 @@ const TodoContext = createContext<TodoContextType | undefined>(undefined);
 const TodoProvider = ({ children }: TodoContextProp) => {
   const [isAddTodoOpen, setIsTodoOpen] = useState(false);
   const [editingTodoId, setEditingTodoId] = useState<string | null>(null);
+  const [selectedTodoId, setSelectedTodoId] = useState<string | null>(null);
 
   const handleAddTodoClick = () => setIsTodoOpen((prev) => !prev);
 
@@ -24,8 +27,10 @@ const TodoProvider = ({ children }: TodoContextProp) => {
       value={{
         isAddTodoOpen,
         editingTodoId,
+        selectedTodoId,
         handleAddTodoClick,
         setEditingTodoId,
+        setSelectedTodoId,
       }}
     >
       {children}
