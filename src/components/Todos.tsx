@@ -55,7 +55,7 @@ export const Todos = ({ todo }: { todo: Todo }) => {
             >
               <p
                 className={cn(
-                  "text-[14px]",
+                  "text-[14px] mt-[3.5px]",
                   todo.completed && "line-through opacity-65"
                 )}
               >
