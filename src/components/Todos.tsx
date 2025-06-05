@@ -15,14 +15,14 @@ const CHAR_LENGTH = 100;
 
 export const Todos = ({ todo }: { todo: Todo }) => {
   const dispatch = useDispatch();
-  const { editingTodoId, setEditingTodoId, detailTodoId, setDetailTodoId } =
+  const { editingTodoId, setEditingTodoId, selectedTodoId, setSelectedTodoId } =
     useTodoContext();
 
   const dateInfo = getDateLabelAndIcon(todo.date);
   const checkboxColor = getPriorityStyles(todo.priority);
 
   const isEditing = editingTodoId === todo.id;
-  const isDetailsId = detailTodoId === todo.id;
+  const isDetailsId = selectedTodoId === todo.id;
 
   return (
     <div className="border-b-1 border-b-secondaryColor py-2 cursor-pointer">
@@ -51,7 +51,7 @@ export const Todos = ({ todo }: { todo: Todo }) => {
 
             <div
               className="space-y-1 flex-1"
-              onClick={() => setDetailTodoId(todo.id)}
+              onClick={() => setSelectedTodoId(todo.id)}
             >
               <p
                 className={cn(

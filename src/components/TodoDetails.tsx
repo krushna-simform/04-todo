@@ -17,7 +17,7 @@ import {
 
 export const TodoDetails = ({ todo }: { todo: Todo }) => {
   const dispatch = useDispatch();
-  const { setDetailTodoId } = useTodoContext();
+  const { setSelectedTodoId } = useTodoContext();
 
   const checkboxColor = getPriorityStyles(todo.priority);
   const dateInfo = getDateLabelAndIcon(todo.date);
@@ -25,7 +25,7 @@ export const TodoDetails = ({ todo }: { todo: Todo }) => {
   return (
     <Dialog
       open={!!todo}
-      onOpenChange={(open) => !open && setDetailTodoId(null)}
+      onOpenChange={(open) => !open && setSelectedTodoId(null)}
     >
       <DialogContent>
         <DialogHeader className="border-b pb-3">
@@ -129,7 +129,7 @@ export const TodoDetails = ({ todo }: { todo: Todo }) => {
           <div className="flex justify-end pt-3">
             <Button
               variant="outline"
-              onClick={() => setDetailTodoId(null)}
+              onClick={() => setSelectedTodoId(null)}
               className="px-6 hover:bg-gray-100 transition-colors cursor-pointer"
             >
               Close
