@@ -4,6 +4,7 @@ import type { RootState } from "@/redux/store";
 import { AddTodo } from "@/components/AddTodo";
 import { ImgShowcase } from "@/components/ui/ImgShowcase";
 import { Todos } from "@/components/Todos";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 const Upcoming = () => {
   const today = new Date().toISOString().split("T")[0];
@@ -13,6 +14,10 @@ const Upcoming = () => {
 
   return (
     <div className="w-full h-full">
+      <div className="flex justify-end m-4">
+        <ThemeToggle />
+      </div>
+
       <div className="w-[90%] md:w-[50%] mx-auto pt-18 flex flex-col h-full">
         <div>
           <p className="text-2xl font-bold" role="heading">
