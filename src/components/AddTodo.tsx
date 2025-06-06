@@ -126,7 +126,7 @@ export const AddTodo = () => {
       {isAddTodoOpen && (
         <form
           onSubmit={formik.handleSubmit}
-          className="w-full border border-secondaryColor min-h-35 rounded-lg mt-10 flex flex-col"
+          className="w-full border border-secondaryColor dark:border-secondaryColor/20 min-h-35 rounded-lg mt-10 flex flex-col"
         >
           <div className="flex flex-col gap-2 py-2 px-2">
             <Input
@@ -146,7 +146,7 @@ export const AddTodo = () => {
             />
           </div>
 
-          <div className="flex gap-3 justify-between border-t-1 py-2 px-2 border-t-primaryColor">
+          <div className="flex gap-3 justify-between border-t-1 py-2 px-2 border-t-primaryColor dark:border-t-primaryColor/50">
             <div className="flex gap-1 items-center">
               <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
@@ -190,15 +190,15 @@ export const AddTodo = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="high">
-                    <div className="h-3 w-3 bg-[#F8DAD8] border-1 border-[#E23B37] rounded-full"></div>
+                    <div className="h-3 w-3 bg-[#F8DAD8] border-1 border-[#E23B37] dark:bg-transparent rounded-full"></div>
                     High
                   </SelectItem>
                   <SelectItem value="medium">
-                    <div className="h-3 w-3 bg-[#FBEDE3] border-1 border-[#FE6E01] rounded-full"></div>
+                    <div className="h-3 w-3 bg-[#FBEDE3] border-1 border-[#FE6E01] dark:bg-transparent rounded-full"></div>
                     Medium
                   </SelectItem>
                   <SelectItem value="low">
-                    <div className="h-3 w-3 bg-[#E0EDF7] border-1 border-[#2089E5] rounded-full"></div>
+                    <div className="h-3 w-3 bg-[#E0EDF7] border-1 border-[#2089E5] dark:bg-transparent rounded-full"></div>
                     Low
                   </SelectItem>
                 </SelectContent>
@@ -213,7 +213,7 @@ export const AddTodo = () => {
                 formik.resetForm();
                 handleAddTodoClick();
               }}
-              className="bg-gray-500 text-[14px] py-1 px-3 font-semibold rounded-sm cursor-pointer hover:bg-gray-400"
+              className="bg-gray-500 text-[14px] py-1 px-3 font-semibold rounded-sm cursor-pointer hover:bg-gray-400 dark:bg-white"
             >
               Cancel
             </Button>

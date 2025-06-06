@@ -4,12 +4,17 @@ import type { RootState } from "@/redux/store";
 import { AddTodo } from "@/components/AddTodo";
 import { ImgShowcase } from "@/components/ui/ImgShowcase";
 import { Todos } from "@/components/Todos";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 const Inbox = () => {
   const todos = useSelector((state: RootState) => state.todo.todos);
   return (
     <div className="w-full h-full">
-      <div className="w-[90%] md:w-[50%] mx-auto pt-18 flex flex-col h-full">
+      <div className="flex justify-end m-4">
+        <ThemeToggle />
+      </div>
+
+      <div className="w-[90%] md:w-[50%] mx-auto pt-10 flex flex-col h-full">
         <div>
           <p className="text-2xl font-bold" role="heading">
             Inbox

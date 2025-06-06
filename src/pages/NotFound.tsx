@@ -7,7 +7,7 @@ export const PageNotFound = () => {
       <p className="text-9xl">404</p>
       <p className="text-2xl">Page not found</p>
       <Link to="/" className="mt-6">
-        <Button className="bg-primaryColor cursor-pointer hover:bg-primaryColor/80 text-lg py-5 px-6">
+        <Button className="bg-primaryColor cursor-pointer hover:bg-primaryColor/80 text-lg py-5 px-6 dark:text-white">
           Go to Home
         </Button>
       </Link>
