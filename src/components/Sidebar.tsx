@@ -36,13 +36,13 @@ export const Sidebar = () => {
   const { handleAddTodoClick } = useTodoContext();
 
   return (
-    <div className="h-[100vh] min-w-[300px] pl-6 py-4 bg-sidebarBackground">
+    <div className="h-[100vh] min-w-[300px] pl-6 py-4 bg-sidebarBackground dark:bg-[#272627]">
       <button
-        className="flex items-center gap-2 py-2 px-3 rounded-l-lg cursor-pointer hover:bg-secondaryColor transition-colors ease-in-out w-full"
+        className="flex items-center gap-2 py-2 px-3 rounded-l-lg cursor-pointer hover:bg-secondaryColor dark:hover:bg-primaryColor/25 transition-colors ease-in-out w-full"
         onClick={handleAddTodoClick}
       >
         <img src={addTaskIcon} alt="Add task" className="h-7" />
-        <span className="text-primaryColor text-lg font-semibold">
+        <span className="text-primaryColor dark:text-white text-lg font-semibold">
           Add task
         </span>
       </button>
@@ -53,9 +53,9 @@ export const Sidebar = () => {
               <Link
                 to={item.to}
                 className={cn(
-                  "flex gap-2 px-3 py-2 cursor-pointer rounded-l-lg hover:bg-secondaryColor hover:text-primaryColor",
+                  "flex gap-2 px-3 py-2 cursor-pointer rounded-l-lg hover:bg-secondaryColor hover:text-primaryColor dark:hover:bg-primaryColor/25 dark:hover:text-white",
                   currentPath === `${item.to}` &&
-                    "bg-secondaryColor text-primaryColor"
+                    "bg-secondaryColor text-primaryColor dark:bg-primaryColor/25 dark:text-white"
                 )}
               >
                 <img src={item.src} alt="Inbox" className="h-7" />

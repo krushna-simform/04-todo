@@ -7,6 +7,7 @@ import { getDateLabelAndIcon, getPriorityStyles } from "@/utils/todoUtils";
 import { useTodoContext } from "@/hooks/useTodoContext";
 import { EditTodo } from "@/components/EditTodo";
 import { TodoDetails } from "@/components/TodoDetails";
+import { useTheme } from "@/hooks/useTheme";
 
 import editIcon from "/icons/edit.svg";
 import deleteIcon from "/icons/delete.svg";
@@ -17,6 +18,7 @@ export const Todos = ({ todo }: { todo: Todo }) => {
   const dispatch = useDispatch();
   const { editingTodoId, setEditingTodoId, selectedTodoId, setSelectedTodoId } =
     useTodoContext();
+  const { theme } = useTheme();
 
   const dateInfo = getDateLabelAndIcon(todo.date);
   const checkboxColor = getPriorityStyles(todo.priority);
@@ -25,17 +27,17 @@ export const Todos = ({ todo }: { todo: Todo }) => {
   const isDetailsId = selectedTodoId === todo.id;
 
   return (
-    <div className="border-b-1 border-b-secondaryColor py-2 cursor-pointer">
+    <div className="border-b-1 border-b-secondaryColor dark:border-b-secondaryColor/20 py-2 cursor-pointer">
       {isEditing ? (
         <EditTodo todo={todo} />
       ) : (
         <div className="flex justify-between items-end">
           <div className="flex items-start gap-3.5 flex-1">
             <button
-              className="border min-h-5 min-w-5 rounded-full mt-1 flex items-center justify-center cursor-pointer group"
+              className="border min-h-5 min-w-5 rounded-full mt-1 flex items-center justify-center cursor-pointer group dark:bg-none"
               style={{
                 border: `2px solid ${checkboxColor.borderColor}`,
-                background: checkboxColor.bgColor,
+                background: theme === "light" ? checkboxColor.bgColor : "",
               }}
               onClick={() => dispatch(toggleComplete(todo.id))}
             >
@@ -64,7 +66,7 @@ export const Todos = ({ todo }: { todo: Todo }) => {
                   : todo.text}
               </p>
               {todo.description && (
-                <p className="text-[12px] text-gray-500">
+                <p className="text-[12px] text-gray-500 dark:text-gray-300">
                   {todo.description.length > CHAR_LENGTH
                     ? todo.description.slice(0, CHAR_LENGTH) + "..."
                     : todo.description}

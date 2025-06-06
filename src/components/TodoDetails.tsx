@@ -7,6 +7,7 @@ import { useTodoContext } from "@/hooks/useTodoContext";
 import { getDateLabelAndIcon, getPriorityStyles } from "@/utils/todoUtils";
 import { toggleComplete } from "@/redux/todoSlice";
 import { Button } from "@/components/ui/button";
+import { useTheme } from "@/hooks/useTheme";
 import {
   Dialog,
   DialogContent,
@@ -18,6 +19,7 @@ import {
 export const TodoDetails = ({ todo }: { todo: Todo }) => {
   const dispatch = useDispatch();
   const { setSelectedTodoId } = useTodoContext();
+  const { theme } = useTheme();
 
   const checkboxColor = getPriorityStyles(todo.priority);
   const dateInfo = getDateLabelAndIcon(todo.date);
@@ -43,7 +45,7 @@ export const TodoDetails = ({ todo }: { todo: Todo }) => {
               className="border min-h-5 min-w-5 rounded-full mt-1 flex items-center justify-center cursor-pointer group"
               style={{
                 border: `2px solid ${checkboxColor.borderColor}`,
-                background: checkboxColor.bgColor,
+                background: theme === "light" ? checkboxColor.bgColor : "",
               }}
               onClick={() => dispatch(toggleComplete(todo.id))}
             >
@@ -70,37 +72,39 @@ export const TodoDetails = ({ todo }: { todo: Todo }) => {
           {todo.description && (
             <div
               className={cn(
-                "w-full bg-gray-100/70 py-2 px-3 rounded-sm overflow-y-auto max-h-90",
+                "w-full bg-gray-100/70 dark:bg-gray-100/10 py-2 px-3 rounded-sm overflow-y-auto max-h-90",
                 todo.completed && "opacity-65"
               )}
               style={{ scrollbarWidth: "none" }}
             >
-              <p className="text-[15px] text-slate-700">{todo.description}</p>
+              <p className="text-[15px] text-slate-700 dark:text-white">
+                {todo.description}
+              </p>
             </div>
           )}
 
           <div className="flex gap-2">
-            <div className="bg-gray-100/80 py-2 px-3 rounded-full">
+            <div className="bg-gray-100/80 dark:bg-gray-100/10 py-2 px-3 rounded-full">
               <p
                 className={cn(
-                  "text-slate-700 text-[15px]",
-                  todo.completed && "text-green-700"
+                  "text-slate-700 text-[15px] dark:text-white",
+                  todo.completed && "text-green-700 dark:text-green-400"
                 )}
               >
                 {todo.completed ? "Completed" : "Pending"}
               </p>
             </div>
 
-            <div className="flex items-center gap-2 bg-gray-100/80 py-2 px-3 rounded-full">
-              <Flag className="h-4 text-slate-700" />
-              <span className="text-[15px] text-slate-700 capitalize">
+            <div className="flex items-center gap-2 bg-gray-100/80 dark:bg-gray-100/10 py-2 px-3 rounded-full">
+              <Flag className="h-4 text-slate-700 dark:text-white" />
+              <span className="text-[15px] text-slate-700 dark:text-white capitalize">
                 {todo.priority} priority
               </span>
               <div
                 className="w-3 h-3 rounded-full"
                 style={{
                   border: `1px solid ${checkboxColor.borderColor}`,
-                  backgroundColor: checkboxColor.bgColor,
+                  background: theme === "light" ? checkboxColor.bgColor : "",
                 }}
               />
             </div>
