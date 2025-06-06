@@ -18,7 +18,7 @@ const Today = () => {
         <ThemeToggle />
       </div>
 
-      <div className="w-[90%] md:w-[50%] mx-auto pt-18 flex flex-col h-full">
+      <div className="w-[90%] md:w-[50%] mx-auto pt-10 flex flex-col h-full">
         <div>
           <p className="text-2xl font-bold" role="heading">
             Today
