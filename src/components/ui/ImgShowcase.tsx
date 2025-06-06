@@ -1,4 +1,4 @@
-import peace from "/images/peace.jpg";
+import peace from "/images/peace.png";
 
 export const ImgShowcase = () => {
   return (
