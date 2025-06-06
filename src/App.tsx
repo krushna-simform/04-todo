@@ -6,6 +6,7 @@ import Upcoming from "@/pages/Upcoming";
 import { PageNotFound } from "@/pages/NotFound";
 
 import { Sidebar } from "@/components/Sidebar";
+import { ThemeProvider } from "./context/ThemeContext";
 
 const Layout = () => {
   return (
@@ -46,7 +47,9 @@ const router = createBrowserRouter([
 function App() {
   return (
     <>
-      <RouterProvider router={router} />
+      <ThemeProvider defaultTheme="dark" storageKey="todoist-theme">
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </>
   );
 }
